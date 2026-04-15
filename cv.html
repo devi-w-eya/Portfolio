@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Eya Harzallah – CV</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink:        #111111;
+    --muted:      #444444;
+    --link:       #1a1aff;
+    --rule:       #999999;
+    --bg:         #ffffff;
+    --pop-shadow: rgba(0,0,0,.22);
+  }
+  html, body {
+    background: #e8e8e8;
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 11pt;
+    color: var(--ink);
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .page {
+    background: var(--bg);
+    width: 210mm;
+    min-height: 297mm;
+    margin: 20px auto;
+    padding: 18mm 20mm 16mm;
+    box-shadow: 0 4px 30px rgba(0,0,0,.15);
+  }
+  .header { text-align: center; margin-bottom: 4px; }
+  .header h1 { font-size: 22pt; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; }
+  .header .role { font-size: 10pt; color: var(--muted); margin-top: 1px; font-style: italic; }
+  .contact-bar { display: flex; justify-content: center; flex-wrap: wrap; gap: 0; margin-top: 5px; font-size: 9.5pt; color: var(--muted); }
+  .contact-bar span { padding: 0 8px; }
+  .contact-bar span:not(:last-child) { border-right: 1px solid var(--rule); }
+  .contact-bar a { color: var(--link); text-decoration: none; }
+  .contact-bar a:hover { text-decoration: underline; }
+  hr.thick { border: none; border-top: 1.8px solid var(--ink); margin: 8px 0 0; }
+  hr.thin  { border: none; border-top: .7px solid var(--rule); margin: 2px 0 8px; }
+  section { margin-bottom: 11px; }
+  .sec-title { font-size: 10.5pt; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase; margin-bottom: 1px; }
+  .entry { margin-bottom: 8px; }
+  .entry-head { display: flex; justify-content: space-between; align-items: baseline; }
+  .entry-title { font-weight: 700; font-size: 10.8pt; }
+  .entry-date  { font-size: 9.5pt; color: var(--muted); white-space: nowrap; }
+  .entry-sub { display: flex; justify-content: space-between; font-style: italic; font-size: 10pt; color: var(--muted); margin-top: 1px; }
+  ul.bullets { margin-top: 4px; padding-left: 16px; list-style: disc; }
+  ul.bullets li { font-size: 10pt; margin-bottom: 2px; line-height: 1.45; }
+  .skills-table { width: 100%; border-collapse: collapse; font-size: 10pt; }
+  .skills-table td { padding: 1.5px 0; vertical-align: top; }
+  .skills-table td:first-child { font-weight: 700; width: 130px; white-space: nowrap; }
+
+  /* CERT BUTTON */
+  .cert-btn {
+    cursor: pointer;
+    color: var(--link);
+    border-bottom: 1px dashed var(--link);
+    font-size: 10pt;
+    font-family: inherit;
+    background: none;
+    border-top: none; border-left: none; border-right: none;
+    padding: 0;
+    line-height: inherit;
+  }
+  .cert-btn:hover { background: #f0f0ff; border-radius: 2px; }
+  .cert-btn.no-img { border-bottom-style: dotted; }
+
+  /* MODAL */
+  .overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.5);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+  }
+  .overlay.active { display: flex; }
+  .popup {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 22px 24px 18px;
+    max-width: 440px;
+    width: 92%;
+    box-shadow: 0 10px 40px var(--pop-shadow);
+    position: relative;
+    font-family: 'EB Garamond', Georgia, serif;
+    animation: popIn .15s ease;
+  }
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(.95) translateY(8px); }
+    to   { opacity: 1; transform: scale(1)   translateY(0);   }
+  }
+  .popup-close { position: absolute; top: 8px; right: 12px; background: none; border: none; font-size: 18pt; line-height: 1; color: var(--muted); cursor: pointer; }
+  .popup-close:hover { color: var(--ink); }
+  .popup-title { font-size: 13pt; font-weight: 700; margin-bottom: 2px; padding-right: 20px; }
+  .popup-org   { font-style: italic; font-size: 9.5pt; color: var(--muted); margin-bottom: 10px; }
+  .popup-img   { width: 100%; border-radius: 3px; border: 1px solid #ddd; display: block; margin-bottom: 10px; max-height: 260px; object-fit: contain; background: #f8f8f8; }
+  .popup-img.hidden { display: none; }
+  .popup-body  { font-size: 10pt; color: #333; line-height: 1.55; }
+  .popup-badge { display: inline-block; margin-top: 10px; background: #111; color: #fff; font-size: 8pt; padding: 3px 12px; border-radius: 2px; letter-spacing: .6px; text-transform: uppercase; }
+
+  @media print {
+    html, body { background: white; }
+    .page { margin: 0; box-shadow: none; width: 100%; padding: 15mm 18mm; }
+    .overlay { display: none !important; }
+    .cert-btn { color: var(--ink); border-bottom: none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <h1>Eya Harzallah</h1>
+    <div class="role">Computer Science Student &mdash; Faculty of Sciences, Monastir</div>
+    <div class="contact-bar">
+      <span>📍 Tunisia</span>
+      <span><a href="mailto:eyaharzallah35@gmail.com">eyaharzallah35@gmail.com</a></span>
+      <span><a href="https://github.com/devi-w-eya" target="_blank">github.com/devi-w-eya</a></span>
+      <span><a href="https://linkedin.com/in/eya-harzallah" target="_blank">linkedin.com/in/eya-harzallah</a></span>
+      <span><a href="https://your-portfolio.com" target="_blank">Portfolio</a></span>
+    </div>
+  </div>
+  <hr class="thick"/><hr class="thin"/>
+
+  <section>
+    <div class="sec-title">Summary</div><hr class="thin"/>
+    <p style="font-size:10pt;color:#222;line-height:1.55;">
+      Computer Science student focused on building real systems through hands-on development. Interested in backend engineering, cybersecurity fundamentals, and applied AI — particularly computer vision in healthcare. Open to internship opportunities in 2026.
+    </p>
+  </section>
+
+  <section>
+    <div class="sec-title">Education</div><hr class="thin"/>
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-title">Faculty of Sciences, Monastir</span>
+        <span class="entry-date">2024 – Present</span>
+      </div>
+      <div class="entry-sub"><span>Bachelor of Science in Computer Science</span><span>Monastir, Tunisia</span></div>
+    </div>
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-title">Hedi Khefacha High School</span>
+        <span class="entry-date">2020 – 2024</span>
+      </div>
+      <div class="entry-sub"><span>Baccalaureate in Science</span><span>Tunisia</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-title">Projects</div><hr class="thin"/>
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-title">Booklet – Online Bookshop</span>
+        <span class="entry-date">2025</span>
+      </div>
+      <div class="entry-sub">
+        <span>Personal Project &nbsp;|&nbsp; <a href="https://github.com/devi-w-eya/Bookshop" target="_blank" style="color:var(--link);">github.com/devi-w-eya/booklet</a></span>
+      </div>
+      <ul class="bullets">
+        <li>Built a web-based book browsing and listing interface from scratch.</li>
+        <li>Implemented responsive UI with vanilla HTML, CSS, and JavaScript.</li>
+      </ul>
+    </div>
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-title">NutriScanner <em style="font-size:9pt;color:var(--muted);">(In Progress)</em></span>
+        <span class="entry-date">March – Present</span>
+      </div>
+      <div class="entry-sub"><span>Personal Project</span></div>
+      <ul class="bullets">
+        <li>Designing a REST API backend for nutritional data scanning using Spring Boot and Java.</li>
+        <li>Frontend interface currently in development.</li>
+      </ul>
+    </div>
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-title">Java Shop System <em style="font-size:9pt;color:var(--muted);">(In Progress)</em></span>
+        <span class="entry-date">April – Present</span>
+      </div>
+      <div class="entry-sub"><span>Personal Project</span></div>
+      <ul class="bullets">
+        <li>Backend architecture project focused on object-oriented design patterns with Java and Spring Boot.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-title">Skills</div><hr class="thin"/>
+    <table class="skills-table">
+      <tr><td>Languages</td><td>Java, Python, JavaScript, HTML/CSS, C</td></tr>
+      <tr><td>Frameworks</td><td>Spring Boot</td></tr>
+      <tr><td>Tools</td><td>Git, GitHub, Linux, VS Code</td></tr>
+      <tr><td>Spoken</td><td>Arabic (Native), French (Fluent), English (Fluent), Spanish (Basic)</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <div class="sec-title">Certifications</div><hr class="thin"/>
+    <ul class="bullets">
+      <li><button class="cert-btn" onclick="openCert('dc-python')">Introduction to Python</button> &nbsp;&mdash;&nbsp; DataCamp</li>
+      <li><button class="cert-btn" onclick="openCert('cisco-unhatched')">Linux Unhatched</button> &nbsp;&mdash;&nbsp; Cisco Networking Academy</li>
+      <li><button class="cert-btn no-img" onclick="openCert('cisco-essentials')">Linux Essentials</button> &nbsp;&mdash;&nbsp; Cisco Networking Academy <em style="color:var(--muted);font-size:9pt;">(In Progress)</em></li>
+      <li><button class="cert-btn" onclick="openCert('peemo')">Student Entrepreneur Program</button> &nbsp;&mdash;&nbsp; PEEMO</li>
+      <li><button class="cert-btn" onclick="openCert('wehack')">WEHACK 0.0 Hackathon</button> &nbsp;&mdash;&nbsp; Participant</li>
+      <li><button class="cert-btn" onclick="openCert('ai-workshop')">AI Workshop</button> &nbsp;&mdash;&nbsp; Participant</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-title">Achievements</div><hr class="thin"/>
+    <ul class="bullets">
+      <li><strong>WEHACK 0.0 Hackathon</strong> &mdash; Competed in a tech hackathon building innovative solutions under time pressure; gained hands-on experience in rapid prototyping and team collaboration.</li>
+      <li><strong>Student Entrepreneur – PEEMO</strong> &mdash; Selected for an entrepreneurship program covering ideation, lean startup methodology, and business pitching for university students.</li>
+      <li><strong>AI Workshop Participant</strong> &mdash; Attended a practical AI workshop exploring real-world applications of machine learning and computer vision.</li>
+      <li><strong>Learning</strong> &mdash; Completed multiple certifications in Python  independently and Linux  alongside academic studies, demonstrating initiative and continuous growth.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-title">Interests</div><hr class="thin"/>
+    <p style="font-size:10pt;color:#222;line-height:1.6;">
+      <strong>Cybersecurity</strong> &mdash; Exploring network security, ethical hacking fundamentals, and Linux-based security tools. &nbsp;&nbsp;
+      <strong>AI &amp; Computer Vision</strong> &mdash; Interested in applying deep learning to healthcare imaging problems. &nbsp;&nbsp;
+      <strong>Painting</strong> &mdash; Traditional and digital art as a creative outlet. &nbsp;&nbsp;
+      <strong>Piano</strong> &mdash; Self-taught, hobby musician.
+    </p>
+  </section>
+
+</div>
+
+<!-- SINGLE UNIFIED MODAL -->
+<div class="overlay" id="overlay">
+  <div class="popup">
+    <button class="popup-close" onclick="closeModal()">×</button>
+    <div class="popup-title" id="pop-title"></div>
+    <div class="popup-org"   id="pop-org"></div>
+    <img  class="popup-img hidden" id="pop-img" src="" alt="Certificate"/>
+    <div class="popup-body"  id="pop-body"></div>
+    <div id="pop-footer"></div>
+  </div>
+</div>
+
+<script>
+// Put your certificate image files in the same folder as this HTML file
+// and update the img filenames below. Leave img as '' if you don't have it yet.
+const CERTS = {
+  "dc-python": {
+    title: "Introduction to Python",
+    org:   "DataCamp",
+    img:   "python.png",
+    body:  "Covers Python fundamentals: data types, control flow, functions, and an introduction to data science libraries. Completed as part of a self-directed programming learning path.",
+    badge: "Completed"
+  },
+  "cisco-unhatched": {
+    title: "Linux Unhatched",
+    org:   "Cisco Networking Academy",
+    img:   "linux.png",
+    body:  "Introductory Linux course covering command-line basics: navigating the file system, managing files, and understanding shell operations. Part of Cisco's free NetAcad initiative.",
+    badge: "Completed"
+  },
+  "cisco-essentials": {
+    title: "Linux Essentials",
+    org:   "Cisco Networking Academy (LPI)",
+    img:   "",
+    body:  "Covers Linux command-line proficiency, open-source concepts, basic scripting, and system administration fundamentals. Prepares for the LPI Linux Essentials certification exam.",
+    badge: "In Progress"
+  },
+  "peemo": {
+    title: "Student Entrepreneur Program",
+    org:   "PEEMO",
+    img:   "peemo.png",
+    body:  "Entrepreneurship program for university students covering ideation, lean startup methodology, pitching, and early-stage business development skills.",
+    badge: "Completed"
+  },
+  "wehack": {
+    title: "WEHACK 0.0 Hackathon",
+    org:   "Hackathon Event",
+    img:   "wehack.png",
+    body:  "Participated in WEHACK 0.0, a hackathon focused on tech-driven solutions under time constraints. Gained experience in rapid prototyping, teamwork, and problem-solving.",
+    badge: "Participant"
+  },
+  "ai-workshop": {
+    title: "AI Workshop",
+    org:   "Workshop Event",
+    img:   "ai.png",
+    body:  "Hands-on workshop exploring artificial intelligence concepts, tools, and real-world applications — reinforcing interest in applied AI and computer vision.",
+    badge: "Participant"
+  }
+};
+
+function openCert(id) {
+  const c = CERTS[id];
+  if (!c) return;
+  document.getElementById('pop-title').textContent = c.title;
+  document.getElementById('pop-org').textContent   = c.org;
+  document.getElementById('pop-body').textContent  = c.body;
+  document.getElementById('pop-footer').innerHTML  = `<span class="popup-badge">${c.badge}</span>`;
+  const img = document.getElementById('pop-img');
+  if (c.img) { img.src = c.img; img.classList.remove('hidden'); }
+  else        { img.src = '';   img.classList.add('hidden');    }
+  document.getElementById('overlay').classList.add('active');
+}
+
+function closeModal() {
+  document.getElementById('overlay').classList.remove('active');
+}
+
+document.getElementById('overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>

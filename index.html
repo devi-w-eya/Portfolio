@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eya Harzallah — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #faf7f2;
+      --card: #ffffff;
+      --nav: rgba(250,247,242,0.85);
+      --accent: #9b8fd4;
+      --accent-light: #c4b5f4;
+      --accent-muted: #e8e0f5;
+      --text: #2d2040;
+      --text-muted: #6b5f8a;
+      --border: #e0d8f0;
+      --red-accent: #e05a5a;
+    }
+    .nav-social i {
+        font-size: 30px;
+        width: 38px;
+        height: 38px;
+    }
+    body.dark {
+      --bg: #1a1720;
+      --card: #231e35;
+      --nav: rgba(26,23,32,0.88);
+      --text: #ede8ff;
+      --text-muted: #a09abf;
+      --border: #2e2845;
+      --accent-muted: #2e2845;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg); color: var(--text);
+      transition: background 0.3s, color 0.3s;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 1;
+    }
+
+    /* ── TOP NAVBAR ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: var(--nav);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      height: 60px;
+      display: flex; align-items: center;
+      padding: 0 2.5rem;
+      justify-content: space-between;
+      transition: background 0.3s;
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px; font-weight: 600;
+      color: var(--text); letter-spacing: 0.02em;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--accent); font-style: italic; }
+    .nav-links { display: flex; gap: 2px; align-items: center; }
+    .nav-link {
+      font-size: 12px; font-weight: 400; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--text-muted);
+      background: none; border: none;
+      padding: 6px 14px; border-radius: 999px;
+      transition: all 0.2s; position: relative;
+    }
+    .nav-link:hover { color: var(--text); background: var(--accent-muted); }
+    .nav-link.active { color: var(--accent); }
+    .nav-link.active::after {
+      content: ''; position: absolute; bottom: 2px; left: 50%;
+      transform: translateX(-50%);
+      width: 4px; height: 4px; border-radius: 50%;
+      background: var(--accent);
+    }
+    .nav-right { display: flex; align-items: center; gap: 10px; }
+    .nav-socials { display: flex; gap: 6px; }
+    .nav-social {
+      width: 30px; height: 30px; border-radius: 8px;
+      border: 1px solid var(--border); background: transparent;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 500; color: var(--text-muted);
+      text-decoration: none; transition: all 0.2s;
+    }
+    .nav-social:hover { border-color: var(--accent); color: var(--accent); }
+    .toggle-btn {
+      background: transparent; border: 1px solid var(--border);
+      border-radius: 999px; padding: 5px 14px;
+      font-size: 11px; font-family: 'DM Sans', sans-serif;
+      color: var(--text-muted); transition: all 0.2s; letter-spacing: 0.05em;
+    }
+    .toggle-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; padding: 4px; }
+    .hamburger span { width: 22px; height: 1.5px; background: var(--text); border-radius: 2px; transition: all 0.3s; display: block; }
+    .mobile-menu {
+      display: none; position: fixed; top: 60px; left: 0; right: 0;
+      background: var(--nav); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 1.5rem; flex-direction: column; gap: 4px; z-index: 99;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-link {
+      font-size: 13px; color: var(--text-muted); background: none; border: none;
+      padding: 10px 0; text-align: left; border-bottom: 1px solid var(--border);
+      letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .mobile-link:last-child { border-bottom: none; }
+
+    /* ── MAIN ── */
+    main { padding-top: 60px; position: relative; z-index: 2; }
+
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* NO border-bottom separators between sections */
+    section { padding: 5rem 6rem; max-width: 1100px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 30px; font-weight: 600; ;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 3rem; display: flex; align-items: center; gap: 10px;
+    }
+    .section-label::after { content: ''; width: 40px; height: 1px; background: var(--accent); opacity: 0.35; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: calc(100vh - 60px); display: flex; align-items: center;
+      padding: 4rem 6rem; position: relative; overflow: hidden;
+    }
+    #hero::before {
+      content: 'EH'; position: absolute; right: -0.05em; bottom: -0.2em;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(14rem, 28vw, 24rem);
+      font-weight: 600; font-style: italic;
+      color: var(--accent); opacity: 0.04;
+      line-height: 1; pointer-events: none; user-select: none; z-index: 0;
+    }
+    .hero-inner { display: flex; gap: 5rem; align-items: center; flex-wrap: wrap; position: relative; z-index: 1; width: 100%; }
+
+    /* photo + CV button column */
+    .hero-photo-col {
+      display: flex; flex-direction: column; align-items: center; gap: 14px; flex-shrink: 0;
+    }
+    .hero-photo {
+      width: 240px; height: 300px; border-radius: 20px; overflow: hidden;
+      border: 1px solid var(--border); background: var(--accent-muted);
+      position: relative;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .hero-photo:hover { transform: translateY(-6px) rotate(1deg); box-shadow: 0 20px 60px rgba(155,143,212,0.2); }
+    .hero-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .photo-fallback {
+      width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+      font-size: 56px; color: var(--accent); position: absolute; top: 0; left: 0;
+    }
+
+    /* CV button — same width as photo */
+    .cv-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      width: 240px; padding: 11px 0; border-radius: 12px;
+      background: var(--card); border: 1px solid var(--border);
+      color: var(--text-muted); font-size: 12px; font-weight: 500;
+      text-decoration: none; justify-content: center;
+      transition: all 0.25s; letter-spacing: 0.03em;
+    }
+    .cv-btn:hover {
+      border-color: var(--accent); color: var(--accent);
+      transform: translateY(-2px); box-shadow: 0 8px 24px rgba(155,143,212,0.15);
+    }
+    .cv-btn-icon {
+      width: 22px; height: 22px; border-radius: 6px;
+      background: var(--accent-muted); display: flex; align-items: center;
+      justify-content: center; font-size: 11px; color: var(--accent);
+    }
+
+    .hero-text { max-width: 500px; }
+    .hero-tag {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.2em;
+      text-transform: uppercase; margin-bottom: 1.25rem;
+      display: flex; align-items: center; gap: 8px;
+      color: var(--red-accent);
+    }
+    .hero-tag::before { content: ''; width: 20px; height: 1px; background: var(--red-accent); }
+    .hero-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 6vw, 5rem); font-weight: 400;
+      line-height: 1.0; margin-bottom: 1rem;
+    }
+    .hero-name span { color: var(--accent); font-style: italic; }
+    .hero-sub {
+      font-size: 0.95rem; line-height: 1.8; color: var(--text-muted);
+      margin-bottom: 2rem; font-weight: 300;
+    }
+
+    .hero-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 2rem; }
+    .chip {
+      font-size: 11px; padding: 5px 12px; border-radius: 999px;
+      border: 1px solid var(--border); color: var(--text-muted);
+      background: var(--card); font-weight: 400; letter-spacing: 0.02em;
+    }
+    .chip.highlight { background: var(--accent-muted); border-color: var(--accent-light); color: var(--accent); }
+
+    .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn {
+      padding: 11px 28px; border-radius: 999px; font-size: 13px;
+      font-weight: 500; letter-spacing: 0.03em;
+      transition: all 0.25s; text-decoration: none; display: inline-block;
+    }
+    .btn-primary { background: var(--accent); color: #fff; border: none; }
+    .btn-primary:hover { background: #7c6fba; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(155,143,212,0.35); }
+    .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+    .scroll-hint {
+      position: absolute; bottom: 2rem; left: 6rem;
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--text-muted); opacity: 0.4;
+      animation: scrollBounce 2.5s ease-in-out infinite;
+    }
+    .scroll-hint::after { content: ''; width: 1px; height: 36px; background: var(--text-muted); opacity: 0.4; }
+    @keyframes scrollBounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+
+    /* ── ABOUT ── */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 2rem; }
+    .about-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.25rem 1.5rem;
+      transition: border-color 0.2s, transform 0.2s;
+      display: flex; gap: 14px; align-items: flex-start;
+    }
+    .about-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .about-card-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+    .about-card-title { font-size: 13px; font-weight: 500; margin-bottom: 4px; color: var(--text); }
+    .about-card-desc { font-size: 12px; color: var(--text-muted); line-height: 1.6; }
+    .about-oneliner {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem; font-style: italic; color: var(--text-muted);
+      line-height: 1.7; margin-bottom: 1.5rem; max-width: 640px;
+    }
+    .lang-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .lang-tag {
+      font-size: 11px; padding: 5px 14px; border-radius: 999px;
+      background: var(--accent-muted); color: var(--text-muted); border: 1px solid var(--border);
+    }
+
+    /* ── EDUCATION ── */
+    .edu-list { display: flex; flex-direction: column; gap: 12px; max-width: 560px; }
+    .edu-card {
+      background: var(--card); border-radius: 14px; border: 1px solid var(--border);
+      padding: 1.25rem 1.5rem; display: flex; justify-content: space-between;
+      align-items: flex-start; flex-wrap: wrap; gap: 8px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .edu-card:hover { border-color: var(--accent); transform: translateX(4px); }
+    .edu-name { font-size: 1rem; font-weight: 500; margin-bottom: 4px; }
+    .edu-sub { font-size: 13px; color: var(--text-muted); }
+    .badge { font-size: 11px; padding: 4px 12px; border-radius: 999px; background: var(--accent-muted); color: var(--accent); }
+
+    /* ── PROJECTS ── */
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 16px; }
+    .project-card {
+      background: var(--card); border-radius: 16px; border: 1px solid var(--border);
+      padding: 1.5rem; transition: all 0.3s; position: relative; overflow: hidden;
+    }
+    .project-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
+    }
+    .project-card:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: 0 16px 48px rgba(155,143,212,0.13); }
+    .project-card:hover::before { transform: scaleX(1); }
+    .project-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    .project-icon { font-size: 22px; color: var(--accent); }
+    .status-badge { font-size: 10px; font-weight: 500; padding: 3px 10px; border-radius: 999px; letter-spacing: 0.04em; }
+    .status-live { background: #EAF3DE; color: #3B6D11; }
+    .status-wip  { background: #FAEEDA; color: #854F0B; }
+    .project-name { font-size: 1rem; font-weight: 500; margin-bottom: 8px; }
+    .project-desc { font-size: 13px; color: var(--text-muted); line-height: 1.65; margin-bottom: 16px; }
+    .stack-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .stack-tag { font-size: 10px; padding: 3px 9px; border-radius: 6px; background: var(--accent-muted); color: var(--text-muted); border: 1px solid var(--border); }
+
+    /* ── SKILLS ── */
+    .skills-wrap { display: flex; gap: 10px; flex-wrap: wrap; max-width: 620px; }
+    .skill-pill {
+      padding: 10px 22px; border-radius: 999px; border: 1px solid var(--border);
+      background: var(--card); font-size: 13px; color: var(--text);
+      transition: all 0.25s; position: relative; overflow: hidden;
+    }
+    .skill-pill::before { content: ''; position: absolute; inset: 0; background: var(--accent); opacity: 0; transition: opacity 0.25s; }
+    .skill-pill:hover { border-color: var(--accent); color: #fff; transform: translateY(-2px); }
+    .skill-pill:hover::before { opacity: 1; }
+    .skill-pill span { position: relative; z-index: 1; }
+
+    /* ── CERTS ── */
+    .certs-list { display: flex; flex-direction: column; gap: 12px; max-width: 520px; }
+    .cert-card {
+      display: flex; align-items: center; gap: 16px;
+      background: var(--card); border-radius: 14px; border: 1px solid var(--border);
+      padding: 1rem 1.4rem; transition: all 0.25s;
+      cursor: pointer; position: relative;
+    }
+    .cert-card:hover { border-color: var(--accent); transform: translateX(6px); }
+    .cert-card:hover .cert-view-hint { opacity: 1; }
+    .cert-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--accent-muted); display: flex; align-items: center; justify-content: center; font-size: 16px; color: var(--accent); flex-shrink: 0; }
+    .cert-name { font-size: 0.95rem; font-weight: 500; margin-bottom: 3px; }
+    .cert-issuer { font-size: 12px; color: var(--text-muted); }
+    .cert-view-hint {
+      position: absolute; right: 1.4rem;
+      font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--accent); opacity: 0; transition: opacity 0.2s;
+    }
+
+    /* ── CERT MODAL ── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 500;
+      background: rgba(0,0,0,0.72); backdrop-filter: blur(8px);
+      align-items: center; justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: var(--card); border-radius: 20px; border: 1px solid var(--border);
+      padding: 2rem; max-width: 90vw; max-height: 90vh;
+      display: flex; flex-direction: column; align-items: center; gap: 1rem;
+      position: relative; animation: modalPop 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    @keyframes modalPop { from{transform:scale(0.85);opacity:0} to{transform:scale(1);opacity:1} }
+    .modal-box img { max-width: 100%; max-height: 65vh; border-radius: 10px; object-fit: contain; border: 1px solid var(--border); }
+    .modal-close {
+      position: absolute; top: 14px; right: 14px;
+      background: var(--accent-muted); border: none; border-radius: 50%;
+      width: 32px; height: 32px; font-size: 14px; color: var(--accent);
+      display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+    }
+    .modal-close:hover { background: var(--accent); color: #fff; }
+    .modal-title { font-size: 15px; font-weight: 500; color: var(--text); text-align: center; }
+    .modal-issuer { font-size: 12px; color: var(--text-muted); }
+    .modal-no-img {
+      width: 340px; height: 200px; border-radius: 10px;
+      background: var(--accent-muted); border: 1px dashed var(--border);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 10px; color: var(--text-muted); font-size: 13px;
+    }
+    .modal-no-img span { font-size: 32px; }
+
+    /* ── CONTACT ── */
+    .contact-text {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-style: italic;
+      color: var(--text-muted); margin-bottom: 2.5rem; max-width: 480px; line-height: 1.7;
+    }
+    .contact-links { display: flex; gap: 12px; flex-wrap: wrap; }
+    .contact-link {
+      padding: 11px 28px; border-radius: 999px; border: 1px solid var(--border);
+      color: var(--text); text-decoration: none; font-size: 13px;
+      font-weight: 500; background: var(--card); transition: all 0.25s;
+    }
+    .contact-link:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(155,143,212,0.12); }
+    .footer-note { margin-top: 4rem; font-size: 11px; color: var(--text-muted); letter-spacing: 0.05em; }
+
+    /* ── MASCOT ── */
+   .mascot-wrap {
+  position: fixed; 
+  bottom: 24px; 
+  right: 24px;
+  left: auto;
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  gap: 6px;
+  z-index: 200; 
+  opacity: 0; 
+  transition: opacity 0.5s;
+  animation: wizFloat 3.5s ease-in-out infinite;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+@keyframes wizFloat { 
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+    .mascot-wrap.visible { opacity: 1; }
+    .mascot-img {
+      width: 100px; border-radius: 12px;
+      filter: drop-shadow(0 4px 18px rgba(155,143,212,0.3));
+      transition: filter 0.3s, transform 0.3s;
+    }
+    .mascot-img:hover { filter: drop-shadow(0 6px 28px rgba(155,143,212,0.55)); transform: scale(1.06); }
+    .mascot-bubble {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 9px 14px; font-size: 12px;
+      color: var(--text); max-width: 200px; text-align: center;
+      line-height: 1.5; position: relative;
+      box-shadow: 0 4px 20px rgba(155,143,212,0.12);
+    }
+    .mascot-bubble::after {
+      content: ''; position: absolute; bottom: -7px; left: 50%;
+      transform: translateX(-50%); width: 0; height: 0;
+      border-left: 6px solid transparent; border-right: 6px solid transparent;
+      border-top: 7px solid var(--border);
+    }
+    .mascot-name { font-size: 9px; color: var(--accent); font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; }
+
+    @keyframes wizFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    @keyframes bubblePop { 0%{transform:scale(0.7);opacity:0} 100%{transform:scale(1);opacity:1} }
+
+    @media (max-width: 768px) {
+      .nav-links, .nav-socials { display: none; }
+      .hamburger { display: flex; }
+      section, #hero { padding: 3rem 1.5rem !important; }
+      .hero-inner { gap: 2rem; }
+      .hero-photo { width: 160px; height: 210px; }
+      .cv-btn { width: 160px; font-size: 11px; }
+      .about-grid { grid-template-columns: 1fr; }
+      #hero::before { font-size: 9rem; }
+      .mascot-wrap { bottom: 12px; right: 12px; }
+      .mascot-img { width: 75px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP NAV -->
+  <nav>
+    <a class="nav-logo" href="#" onclick="goTo('hero')">Eya <span>Harzallah</span></a>
+    <div class="nav-links">
+      <button class="nav-link active" data-section="hero" onclick="goTo('hero')">Home</button>
+      <button class="nav-link" data-section="about" onclick="goTo('about')">About</button>
+      <button class="nav-link" data-section="education" onclick="goTo('education')">Education</button>
+      <button class="nav-link" data-section="projects" onclick="goTo('projects')">Projects</button>
+      <button class="nav-link" data-section="skills" onclick="goTo('skills')">Skills</button>
+      <button class="nav-link" data-section="certs" onclick="goTo('certs')">Certs</button>
+      <button class="nav-link" data-section="contact" onclick="goTo('contact')">Contact</button>
+    </div>
+    <div class="nav-right">
+      <div class="nav-socials">
+  <a class="nav-social" href="https://github.com/devi-w-eya" target="_blank">
+    <i class="fab fa-github"></i>
+  </a>
+  <a class="nav-social" href="https://www.linkedin.com/in/eya-harzallah-540758342" target="_blank">
+    <i class="fab fa-linkedin-in"></i>
+  </a>
+  <a class="nav-social" href="mailto:eyaharzallah35@gmail.com">
+    <i class="fas fa-envelope"></i>
+  </a>
+</div>
+    </div>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobile-menu">
+    <button class="mobile-link" onclick="goTo('hero');toggleMenu()">Home</button>
+    <button class="mobile-link" onclick="goTo('about');toggleMenu()">About</button>
+    <button class="mobile-link" onclick="goTo('education');toggleMenu()">Education</button>
+    <button class="mobile-link" onclick="goTo('projects');toggleMenu()">Projects</button>
+    <button class="mobile-link" onclick="goTo('skills');toggleMenu()">Skills</button>
+    <button class="mobile-link" onclick="goTo('certs');toggleMenu()">Certifications</button>
+    <button class="mobile-link" onclick="goTo('contact');toggleMenu()">Contact</button>
+  </div>
+
+  <main>
+
+    <!-- HERO -->
+    <section id="hero">
+      <div class="hero-inner">
+
+        <!-- Photo + CV button stacked in one column -->
+        <div class="hero-photo-col reveal">
+          <div class="hero-photo">
+            <img src="eya.png" alt="Eya Harzallah" onerror="this.style.display='none'" />
+            <div class="photo-fallback"></div>
+          </div>
+          <a href="cv.html" download class="cv-btn">
+            <span class="cv-btn-icon">↓</span>
+            Download CV
+          </a>
+        </div>
+
+        <div class="hero-text">
+          <div class="hero-tag reveal reveal-delay-1">
+            Open to internships — Summer 2026
+          </div>
+
+          <h1 class="hero-name reveal reveal-delay-2">
+            Eya<br><span>Harzallah.</span>
+          </h1>
+
+          <p class="hero-sub reveal reveal-delay-3">
+            Computer Science student focused on building real systems  working across backend development, cybersecurity fundamentals, and applied AI.<br>
+            Interested in computer vision for healthcare and practical, impact-driven technology.
+          </p>
+
+          <div class="hero-chips reveal reveal-delay-3">
+            <span class="chip "> IEEE Member</span>
+            <span class="chip ">Cybersecurity</span>
+            <span class="chip "> Medical AI</span>
+            <span class="chip"> Painting</span>
+            <span class="chip">Piano</span>
+          </div>
+
+          <div class="hero-btns reveal reveal-delay-4">
+            <button class="btn btn-primary" onclick="goTo('projects')">View Projects</button>
+            <button class="btn btn-outline" onclick="goTo('contact')">Contact Me</button>
+          </div>
+
+          <p style="margin-top:1.2rem; font-size:12px; color:var(--text-muted);" class="reveal reveal-delay-4">
+            Based in Tunisia · Open to remote opportunities
+          </p>
+        </div>
+      </div>
+
+      <div class="scroll-hint">scroll</div>
+    </section>
+
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="section-label reveal">About</div>
+
+      <p class="about-oneliner reveal reveal-delay-1">
+        Computer Science student who learns by building  turning curiosity into working systems, one project at a time.
+      </p>
+
+      <div class="about-grid reveal reveal-delay-2">
+        <div class="about-card">
+          <div class="about-card-icon"></div>
+          <div>
+            <div class="about-card-title">Cybersecurity</div>
+            <div class="about-card-desc">Building a strong foundation in Linux, system security, and core cybersecurity concepts, with a focus on understanding vulnerabilities and how to secure systems effectively.</div>
+          </div>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon"></div>
+          <div>
+            <div class="about-card-title">Medical Computer Vision</div>
+            <div class="about-card-desc">Exploring how AI can support healthcare through computer vision applications that assist diagnosis and improve decision-making.</div>
+          </div>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon"></div>
+          <div>
+            <div class="about-card-title">Community Impact</div>
+            <div class="about-card-desc">Led a small initiative during COVID-19 by selling artwork to help fund pulse oximeters for a regional hospital.</div>
+          </div>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon"></div>
+          <div>
+            <div class="about-card-title">Continuous Building</div>
+            <div class="about-card-desc">Actively involved in IEEE, hackathons, and technical workshops while consistently building personal projects to strengthen real-world development skills.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lang-tags reveal reveal-delay-3">
+        <span class="lang-tag">Arabic</span>
+        <span class="lang-tag">English</span>
+        <span class="lang-tag">French</span>
+        <span class="lang-tag">Spanish</span>
+      </div>
+    </section>
+
+
+    <!-- EDUCATION -->
+    <section id="education">
+      <div class="section-label reveal">Education</div>
+      <div class="edu-list">
+        <div class="edu-card reveal reveal-delay-1">
+          <div>
+            <div class="edu-name">Faculty of Sciences, Monastir</div>
+            <div class="edu-sub">Bachelor's in Computer Science</div>
+          </div>
+          <span class="badge">2024 — present</span>
+        </div>
+        <div class="edu-card reveal reveal-delay-2">
+          <div>
+            <div class="edu-name">Hedi Khefacha High School, Monastir</div>
+            <div class="edu-sub">Baccalaureate in Science</div>
+          </div>
+          <span class="badge">2020 — 2024</span>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <div class="section-label reveal">Projects</div>
+      <div class="projects-grid">
+        <div class="project-card reveal reveal-delay-1">
+          <div class="project-top">
+            <div class="project-icon">⬡</div>
+            <span class="status-badge status-live">Live</span>
+          </div>
+         <a href="https://github.com/devi-w-eya/Bookshop" target="_blank" class="project-name">
+            Booklet
+          </a>
+          <div class="project-desc">An online bookshop.</div>
+          <div class="stack-tags">
+            <span class="stack-tag">HTML</span><span class="stack-tag">CSS</span><span class="stack-tag">JavaScript</span>
+          </div>
+        </div>
+        <div class="project-card reveal reveal-delay-2">
+          <div class="project-top">
+            <div class="project-icon">⬡</div>
+            <span class="status-badge status-wip">In progress</span>
+          </div>
+          <div class="project-name">NutriScanner</div>
+          <div class="project-desc">A food product scanner with a unique approach. Backend done, frontend coming soon.</div>
+          <div class="stack-tags">
+            <span class="stack-tag">Spring Boot</span><span class="stack-tag">Java</span><span class="stack-tag">REST API</span>
+          </div>
+        </div>
+        <div class="project-card reveal reveal-delay-3">
+          <div class="project-top">
+            <div class="project-icon">⬡</div>
+            <span class="status-badge status-wip">In progress</span>
+          </div>
+          <div class="project-name">Java Shop</div>
+          <div class="project-desc">A full shop application. Backend architecture in progress.</div>
+          <div class="stack-tags">
+            <span class="stack-tag">Java</span><span class="stack-tag">Spring Boot</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <div class="section-label reveal">Skills & Interests</div>
+      <div class="skills-wrap">
+        <div class="skill-pill reveal reveal-delay-2"><span>Java</span></div>
+        <div class="skill-pill reveal reveal-delay-2"><span>Python</span></div>
+        <div class="skill-pill reveal reveal-delay-4"><span>Computer Vision</span></div>
+        <div class="skill-pill reveal reveal-delay-2"><span>Spring Boot</span></div>
+        <div class="skill-pill reveal reveal-delay-1"><span>HTML / CSS</span></div>
+        <div class="skill-pill reveal reveal-delay-1"><span>JavaScript</span></div>
+        <div class="skill-pill reveal reveal-delay-3"><span>Linux</span></div>
+        <div class="skill-pill reveal reveal-delay-3"><span>Cybersecurity</span></div>
+        <div class="skill-pill reveal reveal-delay-4"><span>AI / ML</span></div>
+      </div>
+    </section>
+
+
+    <!-- CERTIFICATIONS -->
+    <section id="certs">
+      <div class="section-label reveal">Certifications</div>
+      <p style="font-size:12px; color:var(--text-muted); margin-bottom:1.5rem;" class="reveal">
+        Click any certificate to view it.
+      </p>
+      <div class="certs-list">
+
+        <div class="cert-card reveal reveal-delay-1" onclick="openCert('Introduction to Python', 'DataCamp', 'python.png')">
+          <div class="cert-icon">★</div>
+          <div style="flex:1">
+            <div class="cert-name">Introduction to Python</div>
+            <div class="cert-issuer">DataCamp</div>
+          </div>
+          <span class="status-badge status-live">Completed</span>
+          <span class="cert-view-hint">View ↗</span>
+        </div>
+
+        <div class="cert-card reveal reveal-delay-2" onclick="openCert('Linux Unhatched', 'Cisco NetAcad', 'linux.png')">
+          <div class="cert-icon">★</div>
+          <div style="flex:1">
+            <div class="cert-name">Linux Unhatched</div>
+            <div class="cert-issuer">Cisco NetAcad</div>
+          </div>
+          <span class="status-badge status-live">Completed</span>
+          <span class="cert-view-hint">View ↗</span>
+        </div>
+
+        <div class="cert-card reveal reveal-delay-3" onclick="openCert('Linux Essentials', 'Cisco NetAcad', 'cert-linux-essentials.jpg')">
+          <div class="cert-icon">★</div>
+          <div style="flex:1">
+            <div class="cert-name">Linux Essentials</div>
+            <div class="cert-issuer">Cisco NetAcad</div>
+          </div>
+          <span class="status-badge status-wip">In progress</span>
+          <span class="cert-view-hint">View ↗</span>
+        </div>
+
+        <!-- NEW CERT 4 — replace name, issuer, filename, status -->
+        <div class="cert-card reveal reveal-delay-4" onclick="openCert('CERT NAME HERE', 'ISSUER HERE', 'ai.png')">
+          <div class="cert-icon">★</div>
+          <div style="flex:1">
+            <div class="cert-name">A dive into AI training</div>
+            <div class="cert-issuer">Workshop</div>
+          </div>
+          <span class="status-badge status-live">Completed</span>
+          <span class="cert-view-hint">View ↗</span>
+        </div>
+
+        <!-- NEW CERT 5 -->
+        <div class="cert-card reveal reveal-delay-4" onclick="openCert('Student Entrepreneur', 'PEEMO', 'peemo.png')">
+          <div class="cert-icon">★</div>
+          <div style="flex:1">
+            <div class="cert-name">Student Entrepreneur</div>
+            <div class="cert-issuer">Student Entrepreneurship Center, University of Monastir PEEMO</div>
+          </div>
+          <span class="status-badge status-live">Completed</span>
+          <span class="cert-view-hint">View ↗</span>
+        </div>
+
+        <!-- NEW CERT 6 -->
+        <div class="cert-card reveal reveal-delay-4" onclick="openCert('WEHACK 0.0', 'Hackathon', 'wehack.png')">
+          <div class="cert-icon">★</div>
+          <div style="flex:1">
+            <div class="cert-name">WEHACK 0.0</div>
+            <div class="cert-issuer">A local hackathon in its first edition</div>
+          </div>
+          <span class="status-badge status-live">Completed</span>
+          <span class="cert-view-hint">View ↗</span>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="section-label reveal">Contact</div>
+      <p class="contact-text reveal reveal-delay-1">
+        Open to internships and technical collaborations.
+      </p>
+      <div style="margin-bottom: 1.5rem; font-size: 14px;" class="reveal reveal-delay-2">
+        <strong>Email:</strong>
+        <a href="mailto:eyaharzallah35@gmail.com" style="color: var(--accent); text-decoration: none;">
+          eyaharzallah35@gmail.com
+        </a>
+      </div>
+      <div class="contact-links reveal reveal-delay-2">
+        <a class="contact-link" href="mailto:eyaharzallah35@gmail.com">Email me</a>
+        <a class="contact-link" href="https://www.linkedin.com/in/eya-harzallah-540758342" target="_blank">LinkedIn</a>
+        <a class="contact-link" href="https://github.com/devi-w-eya" target="_blank">GitHub</a>
+      </div>
+      <div class="footer-note reveal reveal-delay-3">© 2026 Eya Harzallah</div>
+    </section>
+
+  </main>
+
+
+  <!-- CERT MODAL -->
+  <div class="modal-overlay" id="cert-modal" onclick="closeModal(event)">
+    <div class="modal-box">
+      <button class="modal-close" onclick="document.getElementById('cert-modal').classList.remove('open')">✕</button>
+      <div class="modal-title" id="modal-title"></div>
+      <div class="modal-issuer" id="modal-issuer"></div>
+      <img id="modal-img" src="" alt="Certificate" style="display:none" />
+      <div class="modal-no-img" id="modal-no-img">
+        <span>📄</span>
+        Certificate image not added yet
+      </div>
+    </div>
+  </div>
+
+
+  <!-- MASCOT -->
+  <div class="mascot-wrap" id="mascot">
+    <div class="mascot-bubble" id="mascot-bubble">Welcome to my little corner of the web! ✨</div>
+    <span class="mascot-name">Eya</span>
+    <img class="mascot-img" src="https://i.pinimg.com/736x/4e/42/a1/4e42a138c2b0439d648ce726220dfc6c.jpg" alt="mascot" onclick="showBubble()" />
+  </div>
+
+
+  <script>
+    function goTo(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
+
+    let isDark = false;
+    function toggleDark() {
+      isDark = !isDark;
+      document.body.classList.toggle('dark', isDark);
+      document.getElementById('toggle-btn').textContent = isDark ? '☀ Light' : '☽ Dark';
+    }
+
+    let menuOpen = false;
+    function toggleMenu() {
+      menuOpen = !menuOpen;
+      document.getElementById('mobile-menu').classList.toggle('open', menuOpen);
+    }
+
+    const revealObs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+    const messages = {
+      hero:      "Welcome to my little corner of the web! ",
+      about:     "Still figuring it out but making it count! ",
+      education: "Still surviving the CS curriculum ",
+      projects:  "These took some late nights... worth it!",
+      skills:    "Still leveling up every day! ",
+      certs:     "This one I actually earned ",
+      contact:   "Can't wait to hear from you! ",
+    };
+
+    const navObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const id = e.target.id;
+          document.querySelectorAll('.nav-link').forEach(b => b.classList.remove('active'));
+          const btn = document.querySelector(`.nav-link[data-section="${id}"]`);
+          if (btn) btn.classList.add('active');
+          showBubble(messages[id]);
+        }
+      });
+    }, { threshold: 0.4 });
+    ['hero','about','education','projects','skills','certs','contact'].forEach(id => {
+      const el = document.getElementById(id); if (el) navObs.observe(el);
+    });
+
+    let bubbleTimer;
+    function showBubble(msg) {
+      const b = document.getElementById('mascot-bubble');
+      if (msg) b.textContent = msg;
+      b.style.display = 'block';
+      b.style.animation = 'none'; b.offsetHeight;
+      b.style.animation = 'bubblePop 0.35s cubic-bezier(0.34,1.56,0.64,1)';
+      clearTimeout(bubbleTimer);
+      bubbleTimer = setTimeout(() => b.style.display = 'none', 6000);
+    }
+    setTimeout(() => {
+      document.getElementById('mascot').classList.add('visible');
+      setTimeout(() => showBubble(), 400);
+    }, 900);
+
+    // ── CERT MODAL ──
+    function openCert(title, issuer, imgSrc) {
+      document.getElementById('modal-title').textContent = title;
+      document.getElementById('modal-issuer').textContent = issuer;
+      const img = document.getElementById('modal-img');
+      const placeholder = document.getElementById('modal-no-img');
+      img.src = imgSrc;
+      img.style.display = 'none';
+      placeholder.style.display = 'flex';
+      img.onload = function() {
+        img.style.display = 'block';
+        placeholder.style.display = 'none';
+      };
+      img.onerror = function() {
+        img.style.display = 'none';
+        placeholder.style.display = 'flex';
+      };
+      document.getElementById('cert-modal').classList.add('open');
+    }
+    function closeModal(e) {
+      if (e.target.id === 'cert-modal') document.getElementById('cert-modal').classList.remove('open');
+    }
+  </script>
+</body>
+</html>
